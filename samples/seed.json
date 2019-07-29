@@ -1,0 +1,11 @@
+{
+  "template": {
+    "_type": "string",
+    "options": {
+      "pattern": "[a-z]{10}"
+    }
+  },
+  "options": {
+    "seed": "a seed"
+  }
+}

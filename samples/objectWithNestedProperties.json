@@ -1,0 +1,9 @@
+{
+  "template": {
+    "parentProperty": {
+      "childProperty": {
+        "_type": "string"
+      }
+    }
+  }
+}

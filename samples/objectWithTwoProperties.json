@@ -1,0 +1,13 @@
+{
+  "template": {
+    "fieldWithNumber": {
+      "_type": "number",
+      "options": {
+        "decimals": 2
+      }
+    },
+    "fieldWithAString": {
+      "_type": "string"
+    }
+  }
+}

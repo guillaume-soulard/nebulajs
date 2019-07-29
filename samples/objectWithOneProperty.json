@@ -1,0 +1,10 @@
+{
+  "template": {
+    "field": {
+      "_type": "number",
+      "options": {
+        "decimals": 2
+      }
+    }
+  }
+}
