@@ -1,0 +1,13 @@
+{
+  "template": {
+    "_type": "picker",
+    "options": {
+      "items": [
+        "String",
+        true,
+        42,
+        null
+      ]
+    }
+  }
+}

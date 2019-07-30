@@ -4,12 +4,14 @@ const StringType = require('./types/StringType').StringType;
 const NumberType = require('./types/NumberType').NumberType;
 const DateType = require('./types/DateType').DateType;
 const ArrayType = require('./types/ArrayType').ArrayType;
+const PickerType = require('./types/PickerType').PickerType;
 
 const typeStrategy = {
     string: StringType,
     number: NumberType,
     date: DateType,
-    array: ArrayType
+    array: ArrayType,
+    picker: PickerType
 };
 
 exports.parseTemplate = parseTemplate;
