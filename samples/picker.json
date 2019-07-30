@@ -1,13 +1,20 @@
 {
   "template": {
-    "_type": "picker",
+    "_type": "array",
     "options": {
-      "items": [
-        "String",
-        true,
-        42,
-        null
-      ]
+      "bounds": {
+        "min": 1000000,
+        "max": 1000000
+      },
+      "itemTemplate": {
+        "_type": "picker",
+        "options": {
+          "items": [
+            true,
+            false
+          ]
+        }
+      }
     }
   }
 }
