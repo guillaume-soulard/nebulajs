@@ -1,0 +1,19 @@
+{
+  "template": {
+    "_type": "array",
+    "options": {
+      "itemTemplate": {
+        "id": {
+          "_type": "number",
+          "bounds": {
+            "min": 0,
+            "max": 9999999999
+          }
+        },
+        "name": {
+          "_type": "string"
+        }
+      }
+    }
+  }
+}

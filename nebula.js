@@ -1,14 +1,7 @@
 const seedrandom = require('seedrandom');
 const fs = require("fs");
 const extend = require('extend');
-
-const StringType = require('./types/StringType').StringType;
-const NumberType = require('./types/NumberType').NumberType;
-
-const typeStrategy = {
-  string: StringType,
-  number: NumberType
-};
+const Generator = require('./Generator');
 
 const defaultGlobalOptions = {
     seed: null
@@ -34,58 +27,11 @@ function loadFile(err, data) {
 
     applyGlobalOptions(fileConfig.options);
 
-    console.log(parseTemplate(fileConfig.template));
+    console.log(Generator.parseTemplate(fileConfig.template, {}, 'root'));
 }
 
 function applyGlobalOptions(options) {
     if (options.seed != null) {
         seedrandom(options.seed, {global: true});
     }
-}
-
-function parseTemplate(template) {
-
-    let object = {};
-
-    if (template instanceof Object) {
-        if (isType(template)) {
-            let type = extend(true, {}, typeStrategy[getTypeName(template)]);
-            if (template.options !== undefined) {
-                type.options = extend(true, type.options, template.options);
-            }
-            object = type.generate({
-                options: type.options
-            });
-        } else {
-            for (let propertyName in template) {
-                object[propertyName] = parseTemplate(template[propertyName]);
-            }
-        }
-    } else {
-        object = template;
-    }
-
-    return object;
-}
-
-function isType(template) {
-
-    for (let propertyName in template) {
-        if (propertyName === '_type') {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-function getTypeName(template) {
-
-    for (let propertyName in template) {
-        if (propertyName === '_type') {
-            return template[propertyName];
-        }
-    }
-
-    throw new Error('Unable to determine the type');
 }

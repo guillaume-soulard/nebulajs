@@ -1,0 +1,10 @@
+{
+  "template": {
+    "_type": "number",
+    "options": {
+      "sequence": {
+        "enable": true
+      }
+    }
+  }
+}

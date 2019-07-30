@@ -1,0 +1,29 @@
+{
+  "template": {
+    "_type": "array",
+    "options": {
+      "bounds": {
+        "min": 20,
+        "max": 20
+      },
+      "itemTemplate": {
+        "property1": {
+          "_type": "number",
+          "options": {
+            "sequence": {
+              "enable": true
+            }
+          }
+        },
+        "property2": {
+          "_type": "number",
+          "options": {
+            "sequence": {
+              "enable": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

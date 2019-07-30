@@ -1,0 +1,10 @@
+{
+  "template": {
+    "_type": "array",
+    "options": {
+      "itemTemplate": {
+        "_type": "string"
+      }
+    }
+  }
+}
