@@ -2,16 +2,24 @@ const seedrandom = require('seedrandom');
 const fs = require("fs");
 const extend = require('extend');
 const Generator = require('./Generator');
+const program = require('commander');
 
 const defaultGlobalOptions = {
     seed: null
 };
 
-if (process.argv.length !== 3) {
-    throw new Error('Usage');
-}
+program.version("1.0.0")
+    .arguments('<file>')
+    .description('Data generation from description file')
+    .action(function(file){
+        fs.readFile(file, 'utf8', loadFile);
+    });
 
-fs.readFile(process.argv[2], 'utf8', loadFile);
+program.parse(process.argv);
+
+if (process.argv.length !== 3) {
+    program.outputHelp();
+}
 
 function loadFile(err, data) {
     var fileConfig = JSON.parse(data);

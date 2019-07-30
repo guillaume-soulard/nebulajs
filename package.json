@@ -4,6 +4,7 @@
   "description": "",
   "main": "nebula.js",
   "dependencies": {
+    "commander": "^2.20.0",
     "extend": "^3.0.2",
     "randexp": "^0.5.3",
     "seedrandom": "^3.0.1"
@@ -16,6 +17,6 @@
   "author": "ogama",
   "license": "ISC",
   "bin": {
-    "nebulajs": "./nebula.js"
+    "nebula": "./nebula.js"
   }
 }
