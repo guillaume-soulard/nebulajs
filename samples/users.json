@@ -3,12 +3,14 @@
     "id": {
       "_type": "number",
       "options": {
-        "min": 1,
-        "max": 999999999
-      },
-      "sequence": {
-        "enable": true,
-        "cycle": false
+        "bounds": {
+          "min": 1,
+          "max": 9999999999999999
+        },
+        "sequence": {
+          "enable": true,
+          "cycle": false
+        }
       }
     },
     "firstName": {
@@ -29,6 +31,42 @@
         "bounds": {
           "min": "1940-01-01T00:00:00",
           "max": "2015-12-31T23:59:59"
+        }
+      }
+    },
+    "articles": {
+      "_type": "array",
+      "options": {
+        "bounds": {
+          "min": 0,
+          "max": 15
+        },
+        "itemTemplate": {
+          "id": {
+            "_type": "number",
+            "options": {
+              "bounds": {
+                "min": 1,
+                "max": 9999999999999999
+              },
+              "sequence": {
+                "enable": true,
+                "cycle": false
+              }
+            }
+          },
+          "title": {
+            "_type": "string",
+            "options": {
+              "pattern": "[A-Z]{1}[A-Za-z ]{10,25}"
+            }
+          },
+          "content": {
+            "_type": "string",
+            "options": {
+              "pattern": "[A-Z]{1}[A-Za-z ]{100,250}"
+            }
+          }
         }
       }
     }
