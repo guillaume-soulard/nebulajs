@@ -5,7 +5,8 @@ const Generator = require('./Generator');
 const program = require('commander');
 
 const defaultGlobalOptions = {
-    seed: null
+    seed: null,
+    amount: 10
 };
 
 program.version("1.0.0")
@@ -22,7 +23,7 @@ if (process.argv.length !== 3) {
 }
 
 function loadFile(err, data) {
-    var fileConfig = JSON.parse(data);
+    let fileConfig = JSON.parse(data);
     if (fileConfig.template === undefined) {
         throw new Error('template must be specified');
     }
@@ -35,7 +36,11 @@ function loadFile(err, data) {
 
     applyGlobalOptions(fileConfig.options);
 
-    console.log(Generator.parseTemplate(fileConfig.template, {}, 'root'));
+    let context = {};
+
+    for (let itemNumber = 1; itemNumber <= fileConfig.options.amount; itemNumber++) {
+        console.log(Generator.parseTemplate(fileConfig.template, context, 'root'));
+    }
 }
 
 function applyGlobalOptions(options) {

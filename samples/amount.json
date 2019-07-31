@@ -1,0 +1,17 @@
+{
+  "template": {
+    "_type": "number",
+    "options": {
+      "bounds": {
+        "min": 1,
+        "max": 999999999
+      },
+      "sequence": {
+        "enable": true
+      }
+    }
+  },
+  "options": {
+    "amount": 100
+  }
+}

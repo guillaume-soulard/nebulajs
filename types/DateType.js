@@ -9,7 +9,26 @@ exports.DateType = extend(true, {}, AbstractType, {
         }
     },
     generate: (context) => {
-        return new Date(parseInt((Math.random() * (context.options.bounds.max - context.options.bounds.min) + context.options.bounds.min)
+
+        let minTimestamp, maxTimestamp;
+
+        if (!isNaN(context.options.bounds.min)) {
+
+            minTimestamp = context.options.bounds.min
+        } else {
+
+            minTimestamp = new Date(context.options.bounds.min).getTime();
+        }
+
+        if (!isNaN(context.options.bounds.max)) {
+
+            maxTimestamp = context.options.bounds.max
+        } else {
+
+            maxTimestamp = new Date(context.options.bounds.max).getTime();
+        }
+
+        return new Date(parseInt((Math.random() * (maxTimestamp - minTimestamp) + minTimestamp)
             .toFixed(0)));
     }
 });
