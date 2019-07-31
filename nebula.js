@@ -3,6 +3,7 @@ const fs = require("fs");
 const extend = require('extend');
 const Generator = require('./Generator');
 const program = require('commander');
+const beautify = require('json-beautify');
 
 const defaultGlobalOptions = {
     seed: null,
@@ -39,7 +40,8 @@ function loadFile(err, data) {
     let context = {};
 
     for (let itemNumber = 1; itemNumber <= fileConfig.options.amount; itemNumber++) {
-        console.log(Generator.parseTemplate(fileConfig.template, context, 'root'));
+        let object = Generator.parseTemplate(fileConfig.template, context, 'root');
+        console.log(beautify(object, null, 2, 1));
     }
 }
 
