@@ -1,6 +1,3 @@
-const extend = require('extend');
-const AbstractType = require('./AbstractType').AbstractType;
-
 const truncateList = {
     "milliseconds": 0,
     "seconds": 1,
@@ -11,7 +8,7 @@ const truncateList = {
     "years": 6
 };
 
-exports.DateType = extend(true, {}, AbstractType, {
+exports.DateType = {
     options: {
         bounds: {
             min: 0,
@@ -42,7 +39,7 @@ exports.DateType = extend(true, {}, AbstractType, {
         return truncateDate(new Date(parseInt((Math.random() * (maxTimestamp - minTimestamp) + minTimestamp)
             .toFixed(0))), context.options.truncate);
     }
-});
+};
 
 function truncateDate(date, truncate) {
 

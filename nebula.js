@@ -1,13 +1,16 @@
 const seedrandom = require('seedrandom');
 const fs = require("fs");
 const extend = require('extend');
-const Generator = require('./Generator');
 const program = require('commander');
-const beautify = require('json-beautify');
+const InstantGeneration = require('./generations/InstantGeneration').InstantGeneration;
+const IntervalGeneration = require('./generations/IntervalGeneration').IntervalGeneration;
 
 const defaultGlobalOptions = {
     seed: null,
-    amount: 1
+    amount: 1,
+    generation: {
+        type: "instant"
+    }
 };
 
 program.version("1.0.0")
@@ -37,11 +40,10 @@ function loadFile(err, data) {
 
     applyGlobalOptions(fileConfig.options);
 
-    let context = {};
-
-    for (let itemNumber = 1; itemNumber <= fileConfig.options.amount; itemNumber++) {
-        let object = Generator.parseTemplate(fileConfig.template, context, 'root');
-        console.log(beautify(object, null, 2, 1));
+    if (fileConfig.options.generation.type === 'instant') {
+        InstantGeneration.generate(fileConfig);
+    } else if (fileConfig.options.generation.type === 'interval') {
+        IntervalGeneration.generate(fileConfig);
     }
 }
 

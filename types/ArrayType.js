@@ -1,8 +1,6 @@
-const extend = require('extend');
-const AbstractType = require('./AbstractType').AbstractType;
 const Generator = require('../Generator');
 
-exports.ArrayType = extend(true, {}, AbstractType, {
+exports.ArrayType = {
     options: {
         bounds: {
             min: 0,
@@ -29,4 +27,4 @@ exports.ArrayType = extend(true, {}, AbstractType, {
 
         return array;
     }
-});
+};

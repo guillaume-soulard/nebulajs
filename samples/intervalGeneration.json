@@ -1,0 +1,19 @@
+{
+  "template": {
+    "_type": "number",
+    "options": {
+      "sequence": {
+        "enable": true
+      }
+    }
+  },
+  "options": {
+    "amount": 99999999999999999999999999,
+    "generation": {
+      "type": "interval",
+      "options": {
+        "interval": 2000
+      }
+    }
+  }
+}

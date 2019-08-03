@@ -1,7 +1,4 @@
-const extend = require('extend');
-const AbstractType = require('./AbstractType').AbstractType;
-
-exports.NumberType = extend(true, {}, AbstractType, {
+exports.NumberType = {
     options: {
         bounds: {
             min: 0,
@@ -30,4 +27,4 @@ exports.NumberType = extend(true, {}, AbstractType, {
                 .toFixed(context.options.decimals));
         }
     }
-});
+};

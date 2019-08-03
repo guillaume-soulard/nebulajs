@@ -1,7 +1,4 @@
-const extend = require('extend');
-const AbstractType = require('./AbstractType').AbstractType;
-
-exports.PickerType = extend(true, {}, AbstractType, {
+exports.PickerType = {
     options: {
         items: null
     },
@@ -16,4 +13,4 @@ exports.PickerType = extend(true, {}, AbstractType, {
 
         return context.options.items[index];
     }
-});
+};
