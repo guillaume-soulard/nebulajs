@@ -7,7 +7,7 @@ const beautify = require('json-beautify');
 
 const defaultGlobalOptions = {
     seed: null,
-    amount: 10
+    amount: 1
 };
 
 program.version("1.0.0")
