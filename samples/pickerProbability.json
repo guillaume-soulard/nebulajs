@@ -1,0 +1,21 @@
+{
+  "template": {
+    "_type": "picker",
+    "options": {
+      "items": [
+        {
+          "value": true,
+          "probability": 80
+        },
+        {
+          "value": false,
+          "probability": 20
+        }
+      ]
+    }
+  },
+  "options": {
+    "amount": 10,
+    "seed": "Picker probability"
+  }
+}
