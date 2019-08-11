@@ -1,12 +1,11 @@
 const beautify = require('json-beautify');
-const Generator = require('../Generator');
 
 const defaultOptions = {
     interval: 1000
 };
 
-exports.IntervalGeneration = {
-    generate: (config) => {
+exports.IntervalGeneration = class {
+    static generate (config, generator) {
         let interval = defaultOptions.interval;
 
         if (config.options.generation.options.interval) {
@@ -21,10 +20,10 @@ exports.IntervalGeneration = {
             sleep(interval);
         }
     }
-};
 
-function sleep(miliseconds) {
-    let currentTime = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {
+    static sleep(miliseconds) {
+        let currentTime = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
     }
-}
+};

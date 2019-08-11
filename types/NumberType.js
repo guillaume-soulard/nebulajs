@@ -1,30 +1,38 @@
-exports.NumberType = {
-    options: {
-        bounds: {
-            min: 0,
-            max: 10
-        },
-        decimals: 0,
-        sequence: {
-            enable: false,
-            cycle: true
-        }
-    },
-    generate: (context) => {
+const { AbstractType } = require('./AbstractType');
 
-        if (context.options.sequence.enable) {
-            if (context[context.currentPath].seq === undefined || (context[context.currentPath].seq > context.options.bounds.max && context.options.sequence.cycle)) {
-                context[context.currentPath].seq = context.options.bounds.min;
+exports.NumberType = class NumberType extends AbstractType {
+
+    static newInstance(options) {
+
+        return new NumberType(AbstractType.buildObtions({
+            bounds: {
+                min: 0,
+                max: 10
+            },
+            decimals: 0,
+            sequence: {
+                enable: false,
+                cycle: true,
+                increment: 1
+            }
+        }, options), { seq: null });
+    }
+
+    generate (context) {
+
+        if (this.options.sequence.enable) {
+            if (this.typeContext.seq == null || (this.typeContext.seq > this.options.bounds.max && this.options.sequence.cycle)) {
+                this.typeContext.seq = this.options.bounds.min;
             }
 
-            let numberToReturn = context[context.currentPath].seq;
+            let numberToReturn = this.typeContext.seq;
 
-            context[context.currentPath].seq++;
+            this.typeContext.seq += this.options.sequence.increment;
 
             return numberToReturn;
         } else {
-            return parseFloat((Math.random() * (context.options.bounds.max - context.options.bounds.min) + context.options.bounds.min)
-                .toFixed(context.options.decimals));
+            return parseFloat((Math.random() * (this.options.bounds.max - this.options.bounds.min) + this.options.bounds.min)
+                .toFixed(this.options.decimals));
         }
     }
 };

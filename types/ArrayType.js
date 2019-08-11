@@ -1,28 +1,36 @@
-const Generator = require('../Generator');
+const { AbstractType } = require('./AbstractType');
 
-exports.ArrayType = {
-    options: {
-        bounds: {
-            min: 0,
-            max: 10
-        },
-        itemTemplate: null
-    },
-    generate: (context) => {
-        if (context.options.itemTemplate == null || context.options.itemTemplate === undefined) {
+exports.ArrayType = class ArrayType extends AbstractType {
+
+    static newInstance(options, Generator) {
+
+        let finalOptions = AbstractType.buildObtions({
+            bounds: {
+                min: 0,
+                max: 10
+            },
+            itemTemplate: null
+        }, options);
+
+        if (finalOptions.itemTemplate == null || finalOptions.itemTemplate === undefined) {
             throw new Error('itemTemplate must be defined');
         }
 
-        let numberOfItemsToGenerate = parseInt((Math.random() * (context.options.bounds.max - context.options.bounds.min) + context.options.bounds.min)
+        return new ArrayType(finalOptions, {
+            generator: Generator.newInstance(finalOptions.itemTemplate, {})
+        });
+    }
+
+    generate (context) {
+
+        let numberOfItemsToGenerate = parseInt((Math.random() * (this.options.bounds.max - this.options.bounds.min) + this.options.bounds.min)
             .toFixed(0));
 
         let array = [];
-        let currentPath = context.currentPath;
-        let itemTemplate = context.options.itemTemplate;
 
         for (let i = 1; i <= numberOfItemsToGenerate; i++) {
 
-            array.push(Generator.parseTemplate(itemTemplate, context, currentPath + '[]'));
+            array.push(this.typeContext.generator.generate(context));
         }
 
         return array;

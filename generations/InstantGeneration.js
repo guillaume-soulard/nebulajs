@@ -1,12 +1,13 @@
 const beautify = require('json-beautify');
-const Generator = require('../Generator');
+const Generator = require('../Generator').Generator;
 
-exports.InstantGeneration = {
-    generate: (config) => {
+exports.InstantGeneration =  class InstantGeneration {
+    static generate (config) {
         let context = {};
+        let generator  = Generator.newInstance(config.template, context);
 
         for (let itemNumber = 1; itemNumber <= config.options.amount; itemNumber++) {
-            let object = Generator.parseTemplate(config.template, context, 'root');
+            let object = generator.generate(context);
             console.log(beautify(object, null, 2, 1));
         }
     }

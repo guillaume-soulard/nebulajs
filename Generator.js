@@ -1,5 +1,3 @@
-const extend = require('extend');
-
 const StringType = require('./types/StringType').StringType;
 const NumberType = require('./types/NumberType').NumberType;
 const DateType = require('./types/DateType').DateType;
@@ -14,61 +12,88 @@ const typeStrategy = {
     picker: PickerType
 };
 
-exports.parseTemplate = parseTemplate;
+exports.Generator = class Generator {
 
-function parseTemplate(template, context, path) {
+    constructor(executableTemplate) {
+        this.executableTemplate = executableTemplate;
+    }
 
-    let object = {};
+    static newInstance (template, context) {
 
-    if (template instanceof Object) {
-        if (isType(template)) {
+        return new Generator(Generator.parseTemplate(template, context));
+    }
 
-            let type = getTypeGenerator(template);
-            if (!context.hasOwnProperty(path)) {
-                context[path] = {};
+    static parseTemplate (template, context) {
+        let executableTemplate = {};
+
+        if (template instanceof Object) {
+
+            if (Generator.isType(template)) {
+
+                executableTemplate = Generator.getTypeGenerator(template);
+            } else {
+
+                for (let propertyName in template) {
+
+                    executableTemplate[propertyName] = Generator.parseTemplate(template[propertyName], context);
+                }
             }
-            context.currentPath = path;
-            context.options = type.options;
-            object = type.generate(context);
         } else {
-            for (let propertyName in template) {
-                object[propertyName] = parseTemplate(template[propertyName], context, path + '.' + propertyName);
+            executableTemplate = template;
+        }
+
+        return executableTemplate;
+    }
+
+    generate (context) {
+        return this.generateObject(this.executableTemplate, context);
+    }
+
+    generateObject (executableTemplate, context) {
+
+        let object = {};
+
+        if (executableTemplate instanceof Object) {
+
+            if (executableTemplate != null && executableTemplate.hasOwnProperty('__GEN_TYPE__')) {
+
+                object = executableTemplate.generate(context);
+            } else {
+
+                for (let key in executableTemplate) {
+
+                    object[key] = this.generateObject(executableTemplate[key], context);
+                }
             }
+        } else {
+
+            object = executableTemplate;
         }
-    } else {
-        object = template;
+
+        return object;
     }
 
-    return object;
-}
-
-function getTypeGenerator(template) {
-    let type = extend(true, {}, typeStrategy[getTypeName(template)]);
-    if (template.options !== undefined) {
-        type.options = extend(true, type.options, template.options);
-    }
-
-    return type;
-}
-
-function isType(template) {
-
-    for (let propertyName in template) {
-        if (propertyName === '_type') {
-            return true;
+    static getTypeGenerator(template) {
+        let type = typeStrategy[Generator.getTypeName(template)];
+        let options = {};
+        if (template.options !== undefined) {
+            options = template.options;
         }
+
+        return type.newInstance(options, Generator);
     }
 
-    return false;
-}
+    static isType(template) {
 
-function getTypeName(template) {
+        return template.hasOwnProperty("_type")
+    }
 
-    for (let propertyName in template) {
-        if (propertyName === '_type') {
-            return template[propertyName];
+    static getTypeName(template) {
+
+        if (template.hasOwnProperty("_type")) {
+            return template._type;
         }
-    }
 
-    throw new Error('Unable to determine the type');
-}
+        throw new Error('Unable to determine the type');
+    }
+};

@@ -1,0 +1,21 @@
+{
+  "template": {
+    "_type": "array",
+    "options": {
+      "bounds": {
+        "min": 10,
+        "max": 10
+      },
+      "itemTemplate": {
+        "_type": "number",
+        "options": {
+          "sequence": {
+            "enable": true,
+            "cycle": true,
+            "increment": 1
+          }
+        }
+      }
+    }
+  }
+}

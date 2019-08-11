@@ -1,70 +1,95 @@
-exports.PickerType = {
-    options: {
-        items: null
-    },
-    generate: (context) => {
+const { AbstractType } = require('./AbstractType');
 
-        if (context.options.items == null) {
+exports.PickerType = class PickerType extends AbstractType {
+
+    constructor(options, typeContext) {
+        super(options, typeContext)
+    }
+
+    static newInstance(options) {
+
+        let finalOptions = AbstractType.buildObtions({
+            items: null
+        }, options);
+
+        if (finalOptions.items == null) {
             throw new Error('items option must be defined');
         }
 
-        if (isCorrectProbabilisticItems(context.options.items)) {
+        let typeContext = {
+            isProbabilistic: false,
+            items: []
+        };
 
-            let object;
-            let items = [];
+        if (PickerType.isCorrectProbabilisticItems(finalOptions.items)) {
+
             let offset = 0;
+            typeContext.isProbabilistic = true;
 
-            for (let i = 0; i < context.options.items.length; i++) {
-                items.push({
-                    value: context.options.items[i].value,
+            for (let i = 0; i < finalOptions.items.length; i++) {
+                typeContext.items.push({
+                    value: finalOptions.items[i].value,
                     min: offset,
-                    max: context.options.items[i].probability + offset
+                    max: finalOptions.items[i].probability + offset
                 });
 
-                offset += context.options.items[i].probability;
+                offset += finalOptions.items[i].probability;
             }
+        } else {
+            typeContext.items = finalOptions.items;
+        }
 
+        return new PickerType(finalOptions, typeContext);
+    }
+
+    generate(context) {
+
+        if (this.typeContext.isProbabilistic) {
+
+            let object;
             let random = parseFloat((Math.random() * (100 - 1)));
 
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].min <= random && items[i].max > random) {
-                    object = items[i].value;
+            for (let i = 0; i < this.typeContext.items.length; i++) {
+                if (this.typeContext.items[i].min <= random && this.typeContext.items[i].max > random) {
+                    object = this.typeContext.items[i].value;
                     break;
                 }
             }
 
             return object;
+
         } else {
-            let index = parseInt((Math.random() * (context.options.items.length - 1))
+            let index = parseInt((Math.random() * (this.typeContext.items.length - 1))
                 .toFixed(0));
 
-            return context.options.items[index];
+            return this.typeContext.items[index];
         }
+
     }
-};
 
-function isCorrectProbabilisticItems(items) {
+    static isCorrectProbabilisticItems(items) {
 
-    let probabilisticItemsCount = 0;
-    let nonProbabilisticItemsCount = 0;
-    let probabilitySum = 0;
+        let probabilisticItemsCount = 0;
+        let nonProbabilisticItemsCount = 0;
+        let probabilitySum = 0;
 
-    for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
-        if (items[itemIndex].value !== undefined && items[itemIndex].probability !== undefined) {
-            probabilisticItemsCount++;
-            probabilitySum += items[itemIndex].probability;
-        } else {
-            nonProbabilisticItemsCount++;
+        for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+            if (items[itemIndex].value !== undefined && items[itemIndex].probability !== undefined) {
+                probabilisticItemsCount++;
+                probabilitySum += items[itemIndex].probability;
+            } else {
+                nonProbabilisticItemsCount++;
+            }
         }
-    }
 
-    if (probabilisticItemsCount > 0 && nonProbabilisticItemsCount > 0) {
-        throw new Error('Probabilistic items structure is incorrect');
-    }
+        if (probabilisticItemsCount > 0 && nonProbabilisticItemsCount > 0) {
+            throw new Error('Probabilistic items structure is incorrect');
+        }
 
-    if (probabilitySum !== 100) {
-        throw new Error('Probability sum is not equals to 100');
-    }
+        if (probabilisticItemsCount > 0 && nonProbabilisticItemsCount === 0 && probabilitySum !== 100) {
+            throw new Error('Probability sum is not equals to 100');
+        }
 
-    return probabilisticItemsCount > 0;
+        return probabilisticItemsCount > 0;
+    }
 }
