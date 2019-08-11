@@ -8,7 +8,7 @@ exports.AbstractType = class AbstractType {
     }
 
     static buildObtions (defaultOptions, options) {
-        return extend({}, defaultOptions, options);
+        return extend(true, {}, defaultOptions, options);
     }
 
     generate (context) {
