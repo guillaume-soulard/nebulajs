@@ -1,11 +1,12 @@
 const beautify = require('json-beautify');
+const Generator = require('../Generator').Generator;
 
 const defaultOptions = {
     interval: 1000
 };
 
-exports.IntervalGeneration = class {
-    static generate (config, generator) {
+exports.IntervalGeneration = class IntervalGeneration {
+    static generate (config) {
         let interval = defaultOptions.interval;
 
         if (config.options.generation.options.interval) {
@@ -13,11 +14,12 @@ exports.IntervalGeneration = class {
         }
 
         let context = {};
+        let generator  = Generator.newInstance(config.template, context);
 
         for (let itemNumber = 1; itemNumber <= config.options.amount; itemNumber++) {
-            let object = Generator.parseTemplate(config.template, context, 'root');
+            let object = generator.generate(context);
             console.log(beautify(object, null, 2, 1));
-            sleep(interval);
+            IntervalGeneration.sleep(interval);
         }
     }
 
