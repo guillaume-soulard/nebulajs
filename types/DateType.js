@@ -16,7 +16,7 @@ exports.DateType = class DateType extends AbstractType {
         return new DateType(AbstractType.buildObtions({
             bounds: {
                 min: 0,
-                max: Number.MAX_VALUE
+                max: 4102444800000
             },
             truncate: "milliseconds"
         }, options), { });

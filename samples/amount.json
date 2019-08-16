@@ -1,17 +1,27 @@
 {
   "template": {
-    "_type": "number",
-    "options": {
-      "bounds": {
-        "min": 1,
-        "max": 999999999
-      },
-      "sequence": {
-        "enable": true
+    "number": {
+      "_type": "number",
+      "options": {
+        "bounds": {
+          "min": 1,
+          "max": 999999999
+        },
+        "sequence": {
+          "enable": true
+        }
       }
+    },
+    "string": {
+      "_type": "string"
+    },
+    "date": {
+      "_type": "date"
     }
   },
   "options": {
-    "amount": 100
+    "amount": 5,
+    "seed": "amount",
+    "skip": 5
   }
 }

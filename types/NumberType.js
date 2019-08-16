@@ -22,7 +22,11 @@ exports.NumberType = class NumberType extends AbstractType {
 
         if (this.options.sequence.enable) {
             if (this.typeContext.seq == null || (this.typeContext.seq > this.options.bounds.max && this.options.sequence.cycle)) {
-                this.typeContext.seq = this.options.bounds.min;
+                this.typeContext.seq = this.options.bounds.min + context.index;
+            }
+
+            if (!this.options.sequence.cycle && this.typeContext.seq > this.options.bounds.max) {
+                throw new Error('Sequence reach the maximum of ' + this.options.bounds.max + ' and cannot cycle. Use options.sequence.cycle: true to allow sequence cycle');
             }
 
             let numberToReturn = this.typeContext.seq;

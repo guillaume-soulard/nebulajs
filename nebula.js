@@ -1,4 +1,3 @@
-const seedrandom = require('seedrandom');
 const fs = require("fs");
 const extend = require('extend');
 const program = require('commander');
@@ -9,6 +8,7 @@ const defaultAlias = require('./DefaultALias').alias;
 const defaultGlobalOptions = {
     seed: null,
     amount: 1,
+    skip: 0,
     generation: {
         type: "instant"
     },
@@ -40,17 +40,9 @@ function loadFile(err, data) {
         fileConfig.options = fileConfig.options = extend(true, {}, defaultGlobalOptions);
     }
 
-    applyGlobalOptions(fileConfig.options);
-
     if (fileConfig.options.generation.type === 'instant') {
-        InstantGeneration.generate(fileConfig);
+        new InstantGeneration(fileConfig).generate();
     } else if (fileConfig.options.generation.type === 'interval') {
-        IntervalGeneration.generate(fileConfig);
-    }
-}
-
-function applyGlobalOptions(options) {
-    if (options.seed != null) {
-        seedrandom(options.seed, {global: true});
+        new IntervalGeneration(fileConfig).generate();
     }
 }

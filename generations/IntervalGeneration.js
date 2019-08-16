@@ -1,29 +1,30 @@
 const beautify = require('json-beautify');
-const Generator = require('../Generator').Generator;
+const AbstractGeneration = require('./AbstractGeneration').AbstractGeneration;
 
 const defaultOptions = {
     interval: 1000
 };
 
-exports.IntervalGeneration = class IntervalGeneration {
-    static generate (config) {
+exports.IntervalGeneration = class IntervalGeneration extends AbstractGeneration {
+
+    constructor(config) {
+        super(config);
+    }
+
+    generate () {
         let interval = defaultOptions.interval;
 
-        if (config.options.generation.options.interval) {
-            interval = config.options.generation.options.interval;
+        if (this.config.options.generation.options.interval) {
+            interval = this.config.options.generation.options.interval;
         }
 
-        let context = {};
-        let generator  = Generator.newInstance(config, context);
-
-        for (let itemNumber = 1; itemNumber <= config.options.amount; itemNumber++) {
-            let object = generator.generate(context);
-            console.log(beautify(object, null, 2, 1));
-            IntervalGeneration.sleep(interval);
+        for (let itemIndex = this.config.options.skip; itemIndex < (this.config.options.skip + this.config.options.amount); itemIndex++) {
+            console.log(beautify(this.generateObjectAt(itemIndex), null, 2, 1));
+            this.sleep(interval);
         }
     }
 
-    static sleep(miliseconds) {
+    sleep(miliseconds) {
         let currentTime = new Date().getTime();
         while (currentTime + miliseconds >= new Date().getTime()) {
         }
