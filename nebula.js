@@ -4,13 +4,15 @@ const extend = require('extend');
 const program = require('commander');
 const InstantGeneration = require('./generations/InstantGeneration').InstantGeneration;
 const IntervalGeneration = require('./generations/IntervalGeneration').IntervalGeneration;
+const defaultAlias = require('./DefaultALias').alias;
 
 const defaultGlobalOptions = {
     seed: null,
     amount: 1,
     generation: {
         type: "instant"
-    }
+    },
+    alias: defaultAlias
 };
 
 program.version("1.0.0")

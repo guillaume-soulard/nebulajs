@@ -14,7 +14,7 @@ exports.IntervalGeneration = class IntervalGeneration {
         }
 
         let context = {};
-        let generator  = Generator.newInstance(config.template, context);
+        let generator  = Generator.newInstance(config, context);
 
         for (let itemNumber = 1; itemNumber <= config.options.amount; itemNumber++) {
             let object = generator.generate(context);

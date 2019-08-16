@@ -1,0 +1,29 @@
+{
+  "template": {
+    "id": {
+      "_type": "sequence-id"
+    },
+    "email": {
+      "_type": "email"
+    },
+    "bool": {
+      "_type": "bool"
+    },
+    "orderNumber": {
+      "_type": "order-number"
+    }
+  },
+  "options": {
+    "amount": 10,
+    "alias": {
+      "order-number": {
+        "template": {
+          "_type": "string",
+          "options": {
+            "pattern": "[0-9]{4}[a-z]{4}"
+          }
+        }
+      }
+    }
+  }
+}

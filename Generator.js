@@ -18,24 +18,48 @@ exports.Generator = class Generator {
         this.executableTemplate = executableTemplate;
     }
 
-    static newInstance (template, context) {
+    static newInstance (config, context) {
 
-        return new Generator(Generator.parseTemplate(template, context));
+        return new Generator(this.parseTemplate(config.template,
+            this.getAliasStrategy(config),
+            context));
+    }
+    static getAliasStrategy(config) {
+        let aliasStrategy = {};
+
+        if (config.options !== undefined && config.options.alias !== undefined) {
+
+            for (let aliasName in config.options.alias) {
+                let alias = config.options.alias[aliasName];
+
+                if (alias.template === undefined) {
+                    throw new Error('Alias at index ' + aliasIndex + ' missing property template');
+                }
+
+                aliasStrategy[aliasName] = alias.template;
+            }
+        }
+
+        return aliasStrategy;
     }
 
-    static parseTemplate (template, context) {
+    static parseTemplate (template, aliasStrategy, context) {
         let executableTemplate = {};
 
         if (template instanceof Object) {
 
-            if (Generator.isType(template)) {
+            if (this.isAlias(template, aliasStrategy)) {
+                template = this.getAlias(template, aliasStrategy);
+            }
+
+            if (this.isType(template)) {
 
                 executableTemplate = Generator.getTypeGenerator(template);
             } else {
 
                 for (let propertyName in template) {
 
-                    executableTemplate[propertyName] = Generator.parseTemplate(template[propertyName], context);
+                    executableTemplate[propertyName] = Generator.parseTemplate(template[propertyName], aliasStrategy, context);
                 }
             }
         } else {
@@ -84,6 +108,21 @@ exports.Generator = class Generator {
     }
 
     static isType(template) {
+
+        return this.hasTypeProperty(template) && typeStrategy[template._type] !== undefined;
+    }
+
+    static isAlias(template, aliasStrategy) {
+
+        return this.hasTypeProperty(template) && aliasStrategy[template._type] !== undefined;
+    }
+
+    static getAlias(template, aliasStrategy) {
+
+        return aliasStrategy[template._type];
+    }
+
+    static hasTypeProperty(template) {
 
         return template.hasOwnProperty("_type")
     }
