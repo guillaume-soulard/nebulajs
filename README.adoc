@@ -71,7 +71,7 @@ Here is the JSON structure :
 |seed|The seed to use to force the randomness to be the same on each nebula call. If null, the randomness will be different on each call|null
 |amount|The amount of data to generate based on the specified template|1
 |skip|Nebula generate data based on an index. By using a seed you can generate data on specific indices using the skip property. For example if you want to generate 10 datas starting at index 10 you have to set skip property to 10 and amount to 10. 10|0
-|generation|Specify the type of generation to use|{ type: "instant" }
+|generation|Specify the type of generation to use possible values : "instant" or "interval"|{ type: "instant" }
 |alias|The list of custom alias to use. There is some default alias to use described in the alias section|see alias section
 |===
 
@@ -85,11 +85,46 @@ You can change this behaviour by changing the generation.type global option.
 ----
 {
   "template": {
-    // some template
+    // template
   },
   "options": {
     "generation": {
       "type": <other generation type>
+    }
+  }
+}
+----
+
+.Instant generation
+[source,json]
+----
+{
+  "template": {
+    // template
+  },
+  "options": {
+    "amount": 10,
+    "generation": {
+      "type": "instant"
+    }
+  }
+}
+----
+
+.Interval generation
+[source,json]
+----
+{
+  "template": {
+    // template
+  },
+  "options": {
+    "amount": 10,
+    "generation": {
+      "type": "interval",
+      "options": {
+        "interval": 2000 // generate one item every 2 seconds
+      }
     }
   }
 }
