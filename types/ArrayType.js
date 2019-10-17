@@ -17,7 +17,7 @@ exports.ArrayType = class ArrayType extends AbstractType {
         }
 
         return new ArrayType(finalOptions, {
-            generator: Generator.newInstance(finalOptions.itemTemplate, {})
+            generator: Generator.newInstance({ template: finalOptions.itemTemplate }, {})
         });
     }
 

@@ -1,0 +1,114 @@
+= Nebulajs
+
+Nebula is a small an simple data generation tool
+
+== Getting started
+
+[source,shell]
+----
+npm install nebulajs
+----
+
+Create a new file named `numbers.json` for example :
+[source,json]
+----
+{
+  "template": {
+    "_type": "number"
+  },
+  "options": {
+    "seed": "a seed",
+    "amount": 10
+  }
+}
+----
+
+Run this comma
+[source,shell]
+----
+nebula numbers.json
+----
+
+Output
+[source]
+----
+9
+9
+6
+5
+0
+4
+5
+1
+8
+5
+----
+
+You can write more complex template to generate more complex data structure see link:samples/users.json[users.json]
+
+== Documentation
+
+Nebula is a template based data generator. You have to write a file in JSON format to describe your data.
+
+Here is the JSON structure :
+
+[source,json]
+----
+{
+  "template" : {
+    // the data structure to generate.
+    // This property is mandatory
+  },
+  "options": {
+    // this is where to place your global configuration
+  }
+}
+----
+
+.Default global options
+|===
+|Option|Description|Default value
+|seed|The seed to use to force the randomness to be the same on each nebula call. If null, the randomness will be different on each call|null
+|amount|The amount of data to generate based on the specified template|1
+|skip|Nebula generate data based on an index. By using a seed you can generate data on specific indices using the skip property. For example if you want to generate 10 datas starting at index 10 you have to set skip property to 10 and amount to 10. 10|0
+|generation|Specify the type of generation to use|{ type: "instant" }
+|alias|The list of custom alias to use. There is some default alias to use described in the alias section|see alias section
+|===
+
+=== Generation types
+
+The generation type specify how nebula generate data.
+By default nebula generate the amount of requested data.
+You can change this behaviour by changing the generation.type global option.
+
+[source,json]
+----
+{
+  "template": {
+    // some template
+  },
+  "options": {
+    "generation": {
+      "type": <other generation type>
+    }
+  }
+}
+----
+
+=== Types
+
+==== Number
+
+==== String
+
+==== Date
+
+==== Array
+
+==== Picker
+
+=== Alias
+
+==== Custom aliases
+
+==== Default aliases
